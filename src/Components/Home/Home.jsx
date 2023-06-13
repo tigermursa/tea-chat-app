@@ -7,7 +7,6 @@ const Home = () => {
   console.log(users);
   return (
     <div>
-      <NavigationBar />
       <div className="space-y-4 text-center mt-5">
         {users.map((user) => (
           <div key={user._id} className="bg-white rounded shadow">

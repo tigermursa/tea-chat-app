@@ -7,25 +7,33 @@ import Home from "./Components/Home/Home.jsx";
 import Post from "./Components/Post/Post.jsx";
 import Update from "./Components/Update/Update.jsx";
 import UpdateMain from "./Components/Update/UpdateMain.jsx";
+import Layout from "./Components/Layout/Layout.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home></Home>,
-    loader: () => fetch("http://localhost:4000/users"),
-  },
-  {
-    path: "/post",
-    element: <Post></Post>,
-  },
-  {
-    path: "/update",
-    element: <Update></Update>,
-    loader: () => fetch("http://localhost:4000/users"),
-  },
-  {
-    path: "/updateMain/:id",
-    element: <UpdateMain />,
-    loader: ({ params }) => fetch(`http://localhost:4000/users/${params.id}`),
+    element: <Layout></Layout>,
+    children: [
+      {
+        path: "/",
+        element: <Home></Home>,
+        loader: () => fetch("http://localhost:4000/users"),
+      },
+      {
+        path: "/post",
+        element: <Post></Post>,
+      },
+      {
+        path: "/update",
+        element: <Update></Update>,
+        loader: () => fetch("http://localhost:4000/users"),
+      },
+      {
+        path: "/updateMain/:id",
+        element: <UpdateMain />,
+        loader: ({ params }) =>
+          fetch(`http://localhost:4000/users/${params.id}`),
+      },
+    ],
   },
 ]);
 
