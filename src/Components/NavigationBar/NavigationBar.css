@@ -1,0 +1,14 @@
+.activeNavItem {
+  background-color: rgb(
+    21,
+    21,
+    31
+  ); /* Change the background color to your desired color */
+  color: white; /* Change the text color to your desired color */
+}
+.profile-pic {
+  width: 40px;
+  border: 1px solid white;
+  height: 40px;
+  border-radius: 30px;
+}
