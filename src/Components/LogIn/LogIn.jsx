@@ -4,41 +4,37 @@ import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GoogleAuthProvider } from "firebase/auth";
 import { AuthContext } from "../Provider/AuthProvider";
-import useTitle from "../../Hooks/useTitle";
+import { useForm } from "react-hook-form";
 
 const LogIn = () => {
-  // error handling  code here
-  const [error, setError] = useState();
-  useTitle("Login");
-  // the super Navigation code here ...................
+  const { signIn, signInGoogle } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  const { signIn, signInGoogle } = useContext(AuthContext);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  // main Sign function here ...............
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSignInForm = (e) => {
-    setError("");
-    e.preventDefault();
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
+  const handleSignInForm = (data) => {
+    const { email, password } = data;
+    setErrorMessage(""); // Clear the error message
+
     signIn(email, password)
       .then((result) => {
         const loggedInUser = result.user;
-        form.reset();
         console.log(loggedInUser);
-        navigate(from) || "/"; // replace '/home' with the URL of the page you want to navigate to
+        navigate(from) || "/";
       })
       .catch((error) => {
-        setError("Your email or password not valid");
+        console.log(error);
+        setErrorMessage("Invalid email or password");
       });
-    console.log(error);
   };
-
-  // Google Sign In here >>>>>>>>>>
 
   const googleProvider = new GoogleAuthProvider();
 
@@ -47,7 +43,19 @@ const LogIn = () => {
       .then((result) => {
         const theUser = result.user;
         console.log(theUser);
-        navigate(from);
+        const saveUser = {
+          name: theUser.displayName,
+          email: theUser.email,
+          image: theUser.photoURL,
+        };
+        fetch(`http://localhost:4000/users`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(saveUser),
+        });
+        navigate(from) || "/";
       })
       .catch((error) => {
         console.log(error);
@@ -60,44 +68,53 @@ const LogIn = () => {
   };
 
   return (
-    <div className="mt-0">
+    <div className="mt-0 ">
       <div className="bg-img">
-        <div className="content">
+        <div className="content rounded-xl">
           <header>Login Form</header>
-          <h1 className="text-red-600 font-bold mb-10 text-2xl ">{error}</h1>
-          <form onSubmit={handleSignInForm}>
-            <div className="field">
+          {errorMessage && (
+            <p className="text-red-600 font-bold mb-4">{errorMessage}</p>
+          )}
+          <form onSubmit={handleSubmit(handleSignInForm)}>
+            <div className="field rounded-full">
               <span className="fa fa-user"></span>
               <input
                 type="text"
                 name="email"
-                required
+                {...register("email", {
+                  required: "Email or Phone is required",
+                })}
                 placeholder="Email or Phone"
               />
             </div>
-            <div className="field space">
+            <div className="field space rounded-full">
               <span className="fa fa-lock"></span>
               <input
                 type={showPassword ? "text" : "password"}
-                className="pass-key"
+                className="pass-key "
                 name="password"
-                required
+                {...register("password", {
+                  required: "Password is required",
+                })}
                 placeholder="Password"
               />
               <span className="show" onClick={togglePasswordVisibility}>
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
             </div>
-            <div className="pass">
+            <div className="pass text-center">
               <p className="text-white">Forgot Password?</p>
             </div>
-            <div className="field">
-              <input type="submit" value="LOGIN" />
+            <div className="field rounded-full ">
+              <input className="rounded-full" type="submit" value="LOGIN" />
             </div>
           </form>
           <div className="login">Or login with</div>
           <div className="links">
-            <button onClick={handleGoogleSignIn} className="google">
+            <button
+              onClick={handleGoogleSignIn}
+              className="google rounded-full"
+            >
               <FaGoogle className="me-1"></FaGoogle>
               <span>Google</span>
             </button>

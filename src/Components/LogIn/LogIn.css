@@ -7,7 +7,7 @@
   user-select: none;
 }
 .bg-img {
-  background: url("/formbg.jpg");
+  background: url("/login.jpg");
   height: 100vh;
   background-size: cover;
   background-position: center;
@@ -19,7 +19,7 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.1);
 }
 .content {
   position: relative;
@@ -30,7 +30,7 @@
   padding: 60px 32px;
   width: 370px;
   transform: translate(-50%, -50%);
-  background: rgba(2, 2, 2, 0.7);
+  background: rgba(2, 2, 2, 0.1);
   box-shadow: -1px 4px 28px 0px rgba(0, 0, 0, 0.75);
 }
 .content header {
@@ -127,7 +127,6 @@
 .google {
   margin-left: 0;
   background: #e90202;
-  border: 1px solid #3e61a8;
 }
 
 .google:hover {

@@ -8,8 +8,9 @@ import {
   onAuthStateChanged,
   signInWithPopup,
 } from "firebase/auth";
-import app from "../Firebase/firebaseConfig";
+import app from "../Firebase/FirbaseConfig";
 import { doc, setDoc } from "firebase/firestore";
+import axios from "axios";
 export const AuthContext = createContext(null);
 
 // eslint-disable-next-line react/prop-types
@@ -65,7 +66,17 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (myUsers) => {
       setUser(myUsers);
-      setLoading(false);
+      // token url and axios using
+      // if (myUsers) {
+      //   axios
+      //     .post("https://y-tigermursa.vercel.app/jwt", { email: myUsers.email })
+      //     .then((data) => {
+      //       localStorage.setItem("access-token", data.data.token);
+      //       setLoading(false);
+      //     });
+      // } else {
+      //   localStorage.removeItem("access-token");
+      // }
     });
     return () => {
       unSub();

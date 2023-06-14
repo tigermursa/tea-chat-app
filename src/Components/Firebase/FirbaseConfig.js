@@ -1,17 +1,18 @@
 // Import the functions you need from the SDKs you need
-import { getStorage } from "firebase/storage";
 import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey:import.meta.env.VITE_API_KEY,
-  authDomain: import.meta.env.VITE_AUTH_DOMAIN, ,
-  projectId:import.meta.env.VITE_PROJECT_ID,
-  storageBucket:  import.meta.env.VITE_STORAGE_BUCKET,
-  messagingSenderId:import.meta.env.VITE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_APP_ID,
+  apiKey: "AIzaSyAI-_DEWnow7KXg5HZZkAyXJW0DbkTPsxM",
+  authDomain: "tea-chat-d0a15.firebaseapp.com",
+  projectId: "tea-chat-d0a15",
+  storageBucket: "tea-chat-d0a15.appspot.com",
+  messagingSenderId: "905671623216",
+  appId: "1:905671623216:web:e8d784b97495baf06ba3f5"
 };
 
 // Initialize Firebase
@@ -23,4 +24,4 @@ export default app;
 // 1.add import { getStorage } from "firebase/storage";
 // 2.export const storage = getStorage();
 // 3.export default app;
-// 4.add to env 
+// 4.add to env

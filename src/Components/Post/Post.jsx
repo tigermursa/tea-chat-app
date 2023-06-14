@@ -1,46 +1,83 @@
 import React, { useState } from "react";
-import NavigationBar from "../NavigationBar/NavigationBar";
+import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
-import "./Post.css";
-const Post = () => {
+
+const img_hosting_token = import.meta.env.VITE_Image_Upload_Token;
+
+const Post = ({ closeModal, defaultUserName, defaultUserImage }) => {
+  const [imgURL, setImgURL] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [statusValue, setStatusValue] = useState("");
+  const [userNameValue] = useState(defaultUserName);
+  const [userImageValue] = useState(defaultUserImage);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
-    const name = form.name.value;
-    const email = form.email.value;
-    const img = form.img.value;
-    const description = form.description.value;
-    const user = {
+    const mystatus = statusValue;
+    const name = userNameValue;
+    const image = userImageValue;
+    const status = {
+      image,
+      mystatus,
       name,
-      img,
-      description,
-      email,
+      img: imgURL,
     };
     form.reset();
-    fetch("http://localhost:4000/users", {
+
+    fetch("http://localhost:4000/status", {
       method: "POST",
       headers: {
-        "content-type": "application/json",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify(status),
     })
-      .then((res) => res.json())
+      .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.insertedId) {
           Swal.fire({
             title: "Success!",
-            text: "Food Added to the Data Base",
+            text: "Status Added to the Database",
             icon: "success",
             confirmButtonText: "Cool",
           });
+          closeModal();
         }
+      })
+      .catch((error) => {
+        console.log("Error adding status:", error);
       });
+  };
+
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        `https://api.imgbb.com/1/upload?key=${img_hosting_token}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+      if (data.success) {
+        setImgURL(data.data.display_url);
+      }
+    } catch (error) {
+      console.log("Error uploading image:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
-      <NavigationBar />
       <div className="post-card mt-5 p-2 lg:p-20 pb-10">
         <div className="flex justify-center">
           <form onSubmit={handleSubmit}>
@@ -52,68 +89,72 @@ const Post = () => {
                 Image
               </label>
               <input
-                type="text"
+                type="file"
                 id="img"
                 className="border border-gray-400 p-2 w-full"
                 name="img"
-                placeholder="Photo URL link address here"
+                accept="image/*"
+                onChange={handleImageUpload}
                 required
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="mb-4">
-                <label
-                  htmlFor="name"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  className="border border-gray-400 p-2 w-full"
-                  name="name"
-                  placeholder=" Name"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="email"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="border border-gray-400 p-2 w-full"
-                  name="email"
-                  placeholder="email"
-                  required
-                />
-              </div>
-            </div>
             <div className="mb-4">
               <label
-                htmlFor="description"
+                htmlFor="status"
                 className="block text-gray-700 font-bold mb-2"
               >
-                Detail Description
+                Status
               </label>
-              <textarea
-                id="description"
+              <input
+                id="status"
                 className="border border-gray-400 p-2 w-full"
-                name="description"
-                placeholder="Detail Description"
+                name="status"
+                placeholder="Your status"
+                value={statusValue}
+                onChange={(e) => setStatusValue(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-4 hidden">
+              <label
+                htmlFor="status"
+                className="block text-gray-700 font-bold mb-2"
+              >
+                User Name
+              </label>
+              <input
+                id="userName"
+                className="border border-gray-400 p-2 w-full"
+                name="userName"
+                placeholder="Name"
+                value={userNameValue}
+                readOnly
+                required
+              />
+            </div>
+            <div className="mb-4 hidden">
+              <label
+                htmlFor="status"
+                className="block text-gray-700 font-bold mb-2"
+              >
+                User Image
+              </label>
+              <input
+                id="userImage"
+                className="border border-gray-400 p-2 w-full"
+                name="userName"
+                placeholder="User Image"
+                value={userImageValue}
+                readOnly
                 required
               />
             </div>
             <button
               type="submit"
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              disabled={!imgURL || loading}
             >
-              Create
+              {loading ? "Uploading..." : "Create"}
             </button>
           </form>
         </div>
