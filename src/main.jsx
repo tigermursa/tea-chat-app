@@ -13,8 +13,11 @@ import SignUp from "./Components/SignUp/SignUp.jsx";
 import AuthProvider from "./Components/Provider/AuthProvider.jsx";
 import AllUsers from "./Components/AllUsers/AllUsers.jsx";
 import ProfileInfo from "./Components/ProfileInfo/ProfileInfo.jsx";
-import NewsFeed from "./Components/NewsFeed/NewsFeed.JSX";
+
+import MyPost from "./Components/MyPost/MyPost.jsx";
 import Status from "./Components/Status/Status.jsx";
+import ForOhFor from "./Components/ForOhfor/ForOhFor.jsx";
+import About from "./Components/About/About.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,10 +33,20 @@ const router = createBrowserRouter([
         loader: () => fetch("http://localhost:4000/users"),
       },
       {
+        path: "/about",
+        element: <About></About>,
+      },
+      {
         path: "/post/:id",
         element: <Post></Post>,
         loader: ({ params }) =>
           fetch(`http://localhost:4000/users/${params.id}`),
+      },
+      {
+        path: "/mypost/:id",
+        element: <MyPost></MyPost>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:4000/status/${params.id}`),
       },
       {
         path: "/login",
@@ -51,14 +64,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/feed",
-        element: <NewsFeed></NewsFeed>,
-        children: [
-          {
-            path: "/feed/status",
-            element: <Status></Status>,
-            
-          },
-        ],
+        element: <Status></Status>,
       },
       {
         path: "/update",
@@ -69,9 +75,13 @@ const router = createBrowserRouter([
         path: "/updateMain/:id",
         element: <UpdateMain />,
         loader: ({ params }) =>
-          fetch(`http://localhost:4000/users/${params.id}`),
+          fetch(`http://localhost:4000/status/${params.id}`),
       },
     ],
+  },
+  {
+    path: "/*",
+    element: <ForOhFor></ForOhFor>,
   },
 ]);
 

@@ -71,8 +71,8 @@ const NavigationBar = () => {
                 </li>
               )}
               <li>
-                <NavLink to="/blogs" onClick={() => handleItemClick("blogs")}>
-                  Blogs
+                <NavLink to="/about" onClick={() => handleItemClick("about")}>
+                  About
                 </NavLink>
               </li>
               <li>
@@ -111,8 +111,8 @@ const NavigationBar = () => {
             </li>
           )}
           <li>
-            <NavLink to="/blogs" onClick={() => handleItemClick("blogs")}>
-              Blogs
+            <NavLink to="/about" onClick={() => handleItemClick("about")}>
+              About
             </NavLink>
           </li>
         </ul>

@@ -3,6 +3,7 @@ import { AuthContext } from "../Provider/AuthProvider";
 import { Link, useLoaderData } from "react-router-dom";
 import Modal from "react-modal";
 import Post from "../Post/Post";
+import axios from "axios";
 
 const customModalStyles = {
   overlay: {
@@ -27,14 +28,15 @@ const ProfileInfo = () => {
   const { user } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [dataUpdated, setDataUpdated] = useState(false);
 
   useEffect(() => {
     const fetchUserToys = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           `http://localhost:4000/users/email/${user?.email}`
         );
-        const data = await response.json();
+        const data = response.data;
         setUsers(data);
       } catch (error) {
         console.error("Error fetching user toys:", error);
@@ -44,7 +46,7 @@ const ProfileInfo = () => {
     if (user) {
       fetchUserToys();
     }
-  }, [user]);
+  }, [user, dataUpdated]);
 
   const openModal = () => {
     setModalOpen(true);
@@ -52,6 +54,10 @@ const ProfileInfo = () => {
 
   const closeModal = () => {
     setModalOpen(false);
+  };
+
+  const handleDataUpdate = () => {
+    setDataUpdated(true);
   };
 
   return (
@@ -74,6 +80,11 @@ const ProfileInfo = () => {
               Post Status
             </button>
           </div>
+          <Link to={`/mypost/${user._id}`}>
+            <button className="btn btn-outline btn-sm mt-10">
+              My all posts
+            </button>
+          </Link>
         </div>
       ))}
 
@@ -84,7 +95,15 @@ const ProfileInfo = () => {
         contentLabel="Post Status Modal"
         ariaHideApp={false}
       >
-        {users.length > 0 && <Post closeModal={closeModal} defaultUserName={users[0].name} defaultUserImage={users[0].image}  />}
+        {users.length > 0 && (
+          <Post
+            closeModal={closeModal}
+            defaultUserName={users[0].name}
+            defaultUserImage={users[0].image}
+            defaultUserEmail={users[0].email}
+            updateData={handleDataUpdate}
+          />
+        )}
       </Modal>
     </div>
   );

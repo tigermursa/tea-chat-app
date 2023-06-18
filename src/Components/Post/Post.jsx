@@ -1,15 +1,23 @@
 import React, { useState } from "react";
-import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const img_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 
-const Post = ({ closeModal, defaultUserName, defaultUserImage }) => {
+const Post = ({
+  closeModal,
+  defaultUserName,
+  defaultUserImage,
+  defaultUserEmail,
+  updateStatusList,
+}) => {
   const [imgURL, setImgURL] = useState("");
   const [loading, setLoading] = useState(false);
   const [statusValue, setStatusValue] = useState("");
   const [userNameValue] = useState(defaultUserName);
   const [userImageValue] = useState(defaultUserImage);
+  const [userEmailValue] = useState(defaultUserEmail);
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -17,7 +25,9 @@ const Post = ({ closeModal, defaultUserName, defaultUserImage }) => {
     const mystatus = statusValue;
     const name = userNameValue;
     const image = userImageValue;
+    const email = userEmailValue;
     const status = {
+      email,
       image,
       mystatus,
       name,
@@ -25,30 +35,39 @@ const Post = ({ closeModal, defaultUserName, defaultUserImage }) => {
     };
     form.reset();
 
-    fetch("http://localhost:4000/status", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(status),
-    })
-      .then((response) => response.json())
-      .then((data) => {
+    setLoading(true);
+
+    axios
+      .post("http://localhost:4000/status", status, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        setLoading(false);
+        const data = response.data;
+        window.location.reload(); // Reload the page
         if (data.insertedId) {
           Swal.fire({
             title: "Success!",
             text: "Status Added to the Database",
             icon: "success",
             confirmButtonText: "Cool",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              closeModal();
+              updateStatusList(status);
+            }
           });
-          closeModal();
         }
       })
       .catch((error) => {
+        setLoading(false);
         console.log("Error adding status:", error);
       });
   };
 
+  
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
@@ -57,15 +76,12 @@ const Post = ({ closeModal, defaultUserName, defaultUserImage }) => {
     setLoading(true);
 
     try {
-      const response = await fetch(
+      const response = await axios.post(
         `https://api.imgbb.com/1/upload?key=${img_hosting_token}`,
-        {
-          method: "POST",
-          body: formData,
-        }
+        formData
       );
 
-      const data = await response.json();
+      const data = response.data;
       if (data.success) {
         setImgURL(data.data.display_url);
       }
@@ -79,42 +95,41 @@ const Post = ({ closeModal, defaultUserName, defaultUserImage }) => {
   return (
     <div>
       <div className="post-card mt-5 p-2 lg:p-20 pb-10">
+        <h2 className="text-lg font-semibold mb-4">Create a New Post</h2>
         <div className="flex justify-center">
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label
-                htmlFor="img"
-                className="block text-gray-700 font-bold mb-2"
-              >
-                Image
-              </label>
-              <input
-                type="file"
-                id="img"
-                className="border border-gray-400 p-2 w-full"
-                name="img"
-                accept="image/*"
-                onChange={handleImageUpload}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label
                 htmlFor="status"
                 className="block text-gray-700 font-bold mb-2"
-              >
-                Status
-              </label>
+              ></label>
               <input
                 id="status"
-                className="border border-gray-400 p-2 w-full"
+                className="border-2 rounded-lg border-purple-900 mt-3 w-80 lg:w-96 h-44 text-center mx-auto"
                 name="status"
-                placeholder="Your status"
+                placeholder="What's on your mind?"
                 value={statusValue}
                 onChange={(e) => setStatusValue(e.target.value)}
                 required
               />
             </div>
+            <div className="mb-4 mt-12">
+              <label
+                htmlFor="img"
+                className="block text-gray-700 font-bold mb-2"
+              >
+                Upload Image
+              </label>
+              <input
+                type="file"
+                id="img"
+                className="border-2 rounded-lg p-3 border-purple-900 w-80 lg:w-96 mt-3"
+                name="img"
+                accept="image/*"
+                onChange={handleImageUpload}
+              />
+            </div>
+            {/* hidden items */}
             <div className="mb-4 hidden">
               <label
                 htmlFor="status"
@@ -129,7 +144,6 @@ const Post = ({ closeModal, defaultUserName, defaultUserImage }) => {
                 placeholder="Name"
                 value={userNameValue}
                 readOnly
-                required
               />
             </div>
             <div className="mb-4 hidden">
@@ -146,16 +160,20 @@ const Post = ({ closeModal, defaultUserName, defaultUserImage }) => {
                 placeholder="User Image"
                 value={userImageValue}
                 readOnly
-                required
               />
             </div>
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              disabled={!imgURL || loading}
-            >
-              {loading ? "Uploading..." : "Create"}
-            </button>
+            <div className="flex gap-5 justify-end mt-10">
+              <button type="submit" className="btn btn-active btn-secondary">
+                {loading ? "Uploading...." : "Create"}
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline btn-primary"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       </div>
