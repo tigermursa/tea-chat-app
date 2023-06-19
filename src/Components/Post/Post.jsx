@@ -18,7 +18,6 @@ const Post = ({
   const [userImageValue] = useState(defaultUserImage);
   const [userEmailValue] = useState(defaultUserEmail);
 
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -38,7 +37,7 @@ const Post = ({
     setLoading(true);
 
     axios
-      .post("http://localhost:4000/status", status, {
+      .post("https://server-tea-chat.vercel.app/status", status, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -67,7 +66,6 @@ const Post = ({
       });
   };
 
-  
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
@@ -163,8 +161,12 @@ const Post = ({
               />
             </div>
             <div className="flex gap-5 justify-end mt-10">
-              <button type="submit" className="btn btn-active btn-secondary">
-                {loading ? "Uploading...." : "Create"}
+              <button
+                type="submit"
+                className="btn btn-active btn-secondary"
+                disabled={loading} // Disable the button during loading
+              >
+                {loading ? "Uploading..." : "Create"}
               </button>
               <button
                 type="button"

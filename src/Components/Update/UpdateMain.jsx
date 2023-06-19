@@ -12,7 +12,7 @@ const UpdateMain = ({ closeModal, defaultStatus, postId, setData }) => {
     };
 
     try {
-      const response = await fetch(`http://localhost:4000/status/${postId}`, {
+      const response = await fetch(`https://server-tea-chat.vercel.app/status/${postId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

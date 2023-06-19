@@ -18,7 +18,7 @@ const Update = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:4000/users/${_id}`, {
+        fetch(`https://server-tea-chat.vercel.app/users/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

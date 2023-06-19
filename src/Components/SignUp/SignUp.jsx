@@ -65,7 +65,7 @@ const SignUp = () => {
         email: data.email,
         image: url,
       };
-      fetch(`http://localhost:4000/users`, {
+      fetch(`https://server-tea-chat.vercel.app/users`, {
         method: "POSt",
         headers: {
           "content-type": "application/json",
@@ -115,7 +115,7 @@ const SignUp = () => {
           email: theUser.email,
           image: theUser.photoURL,
         };
-        fetch(`http://localhost:4000/users`, {
+        fetch(`https://server-tea-chat.vercel.app/users`, {
           method: "POST",
           headers: {
             "content-type": "application/json",

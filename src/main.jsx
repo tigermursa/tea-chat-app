@@ -18,6 +18,7 @@ import MyPost from "./Components/MyPost/MyPost.jsx";
 import Status from "./Components/Status/Status.jsx";
 import ForOhFor from "./Components/ForOhfor/ForOhFor.jsx";
 import About from "./Components/About/About.jsx";
+import PrivateRoute from "./Components/Private/PrivateRoute.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,12 +26,12 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home></Home>,
+        element:  <PrivateRoute><Home></Home></PrivateRoute> ,
       },
       {
         path: "/users",
         element: <AllUsers></AllUsers>,
-        loader: () => fetch("http://localhost:4000/users"),
+        loader: () => fetch("https://server-tea-chat.vercel.app/users"),
       },
       {
         path: "/about",
@@ -40,13 +41,13 @@ const router = createBrowserRouter([
         path: "/post/:id",
         element: <Post></Post>,
         loader: ({ params }) =>
-          fetch(`http://localhost:4000/users/${params.id}`),
+          fetch(`https://server-tea-chat.vercel.app/users/${params.id}`),
       },
       {
         path: "/mypost/:id",
         element: <MyPost></MyPost>,
         loader: ({ params }) =>
-          fetch(`http://localhost:4000/status/${params.id}`),
+          fetch(`https://server-tea-chat.vercel.app/status/${params.id}`),
       },
       {
         path: "/login",
@@ -60,7 +61,7 @@ const router = createBrowserRouter([
         path: "/profileinfo",
         element: <ProfileInfo></ProfileInfo>,
         loader: ({ params }) =>
-          fetch(`http://localhost:4000/users/${params.id}`),
+          fetch(`https://server-tea-chat.vercel.app/users/${params.id}`),
       },
       {
         path: "/feed",
@@ -69,13 +70,13 @@ const router = createBrowserRouter([
       {
         path: "/update",
         element: <Update></Update>,
-        loader: () => fetch("http://localhost:4000/users"),
+        loader: () => fetch("https://server-tea-chat.vercel.app/users"),
       },
       {
         path: "/updateMain/:id",
         element: <UpdateMain />,
         loader: ({ params }) =>
-          fetch(`http://localhost:4000/status/${params.id}`),
+          fetch(`https://server-tea-chat.vercel.app/status/${params.id}`),
       },
     ],
   },

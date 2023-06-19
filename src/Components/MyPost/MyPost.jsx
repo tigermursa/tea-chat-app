@@ -42,7 +42,7 @@ const MyPost = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/status/email/${user?.email}`
+        `https://server-tea-chat.vercel.app/status/email/${user?.email}`
       );
       const result = await response.json();
       setData(result);
@@ -63,7 +63,7 @@ const MyPost = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await fetch(`http://localhost:4000/status/${itemId}`, {
+          await fetch(`https://server-tea-chat.vercel.app/status/${itemId}`, {
             method: "DELETE",
           });
           fetchData();

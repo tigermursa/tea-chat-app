@@ -6,7 +6,7 @@ const Status = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/status")
+      .get("https://server-tea-chat.vercel.app/status")
       .then((response) => {
         const data = response.data;
         setLoadedStatus(data.reverse()); // Reverse the array of loadedStatus

@@ -34,7 +34,7 @@ const ProfileInfo = () => {
     const fetchUserToys = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/users/email/${user?.email}`
+          `https://server-tea-chat.vercel.app/users/email/${user?.email}`
         );
         const data = response.data;
         setUsers(data);

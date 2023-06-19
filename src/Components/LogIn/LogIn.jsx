@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GoogleAuthProvider } from "firebase/auth";
 import { AuthContext } from "../Provider/AuthProvider";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2"; // Import Swal from sweetalert2 library
 
 const LogIn = () => {
   const { signIn, signInGoogle } = useContext(AuthContext);
@@ -28,6 +29,12 @@ const LogIn = () => {
       .then((result) => {
         const loggedInUser = result.user;
         console.log(loggedInUser);
+        Swal.fire({ // Show success Swal2 alert
+          icon: "success",
+          title: "Login Successful",
+          showConfirmButton: false,
+          timer: 1500
+        });
         navigate(from) || "/";
       })
       .catch((error) => {
@@ -48,12 +55,18 @@ const LogIn = () => {
           email: theUser.email,
           image: theUser.photoURL,
         };
-        fetch(`http://localhost:4000/users`, {
+        fetch(`https://server-tea-chat.vercel.app/users`, {
           method: "POST",
           headers: {
             "content-type": "application/json",
           },
           body: JSON.stringify(saveUser),
+        });
+        Swal.fire({ // Show success Swal2 alert
+          icon: "success",
+          title: "Login Successful",
+          showConfirmButton: false,
+          timer: 1500
         });
         navigate(from) || "/";
       })
