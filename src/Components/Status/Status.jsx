@@ -56,9 +56,9 @@ const Status = () => {
                   className="w-16 h-16 rounded-full object-cover"
                 />
               </div>
-              <div className="ml-3">
+              <div className="ml-3 flex flex-col items-start">
                 <div className="font-bold text-xl">{status.name}</div>
-                <div className="text-gray-500 text-sm -ms-14 ">
+                <div className="text-gray-500 text-sm  ">
                   {formatTimeDifference(status.dateTime)}
                 </div>
               </div>

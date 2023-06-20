@@ -22,7 +22,7 @@ const PrivateRoute = ({ children }) => {
   if (user) {
     return children;
   } else {
-    Swal.fire("Please Log in to explore     Teachat email:demo@gmail.com Password : Demo@123");
+    Swal.fire("Please Log-in email:demo@gmail.com Pass: Demo@123");
     return <Navigate to="/login" state={{ from: location }} />;
   }
 };
