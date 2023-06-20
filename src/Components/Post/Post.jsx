@@ -25,12 +25,15 @@ const Post = ({
     const name = userNameValue;
     const image = userImageValue;
     const email = userEmailValue;
+    const currentDate = new Date();
+    const dateTime = currentDate.toLocaleString();
     const status = {
       email,
       image,
       mystatus,
       name,
       img: imgURL,
+      dateTime,
     };
     form.reset();
 

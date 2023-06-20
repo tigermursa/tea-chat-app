@@ -11,14 +11,16 @@ const AllUsers = () => {
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
             <tr>
+              <th className="py-2 px-4 border-b">#</th>
               <th className="py-2 px-4 border-b">Image</th>
               <th className="py-2 px-4 border-b">Name</th>
               <th className="py-2 px-4 border-b">Email</th>
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
+            {users.map((user, index) => (
               <tr key={user._id}>
+                <td className="py-2 px-4 border-b">{index + 1}</td>
                 <td className="py-2 px-4 border-b">
                   <img
                     src={user.image}

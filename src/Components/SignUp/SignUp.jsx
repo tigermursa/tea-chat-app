@@ -8,6 +8,7 @@ import { storage } from "../Firebase/FirbaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Swal from "sweetalert2";
 import Spinner from "../Private/Spiner";
+import "./SignUp.css"
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ const SignUp = () => {
         image: url,
       };
       fetch(`https://server-tea-chat.vercel.app/users`, {
-        method: "POSt",
+        method: "POST",
         headers: {
           "content-type": "application/json",
         },
@@ -130,114 +131,143 @@ const SignUp = () => {
   };
 
   return (
-    <div className="mt-0">
+    <div className="min-h-screen  singUpBg flex justify-center items-center">
       {loading ? (
         <div className="flex justify-center items-center mt-96 mb-96">
           <Spinner></Spinner>
         </div>
       ) : (
-        <div className="bg-img">
-          <div className="content rounded-md">
-            <header>Sign up Form</header>
-            <h1 className="text-red-600 font-bold mb-10 text-2xl ">{error}</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="field mb-4 rounded-full">
-                <span className="fa fa-user"></span>
+        <div className="bg-white rounded-lg shadow-lg p-8">
+          <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">
+            Sign up Form
+          </h1>
+          {error && (
+            <h1 className="text-red-600 font-bold mb-4 text-center text-lg">
+              {error}
+            </h1>
+          )}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="mb-4">
+              <label className="block mb-1 font-medium text-gray-700">
+                Username
+              </label>
+              <input
+                type="text"
+                name="username"
+                required
+                placeholder="Username"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-indigo-500"
+                {...register("username", { required: true })}
+              />
+              {errors.username && (
+                <span className="text-red-600">Username is required</span>
+              )}
+            </div>
+            <div className="mb-4">
+              <label className="block mb-1 font-medium text-gray-700">
+                Email or Phone
+              </label>
+              <input
+                type="text"
+                name="email"
+                required
+                placeholder="Email or Phone"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-indigo-500"
+                {...register("email", { required: true })}
+              />
+              {errors.email && (
+                <span className="text-red-600">Email is required</span>
+              )}
+            </div>
+            <div className="mb-4 p-2">
+              <div>
                 <input
-                  type="text"
-                  name="username"
-                  required
-                  placeholder="Username"
-                  {...register("username", { required: true })}
+                  className="text-center"
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoChange}
                 />
-                {errors.username && (
-                  <span className="text-red-600">Username is required</span>
-                )}
               </div>
-              <div className="field rounded-full mb-4">
-                <span className="fa fa-user"></span>
-                <input
-                  type="text"
-                  name="email"
-                  required
-                  placeholder="Email or Phone"
-                  {...register("email", { required: true })}
-                />
-                {errors.email && (
-                  <span className="text-red-600">Email is required</span>
-                )}
-              </div>
-
-              <div className="field mb-4 p-2 rounded-full">
-                <div>
-                  <input
-                    className="text-center"
-                    type="file"
-                    accept="image/*"
-                    onChange={handlePhotoChange}
-                  />
-                </div>
-              </div>
-
-              <div className="field space rounded-full">
-                <span className="fa fa-lock"></span>
+            </div>
+            <div className="mb-4">
+              <label className="block mb-1 font-medium text-gray-700">
+                Password
+              </label>
+              <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="pass-key"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-indigo-500"
                   name="password"
                   required
                   placeholder="Password"
                   {...register("password", { required: true })}
                 />
-                {errors.password && (
-                  <span className="text-red-600">Password is required</span>
-                )}
-                <span className="show" onClick={togglePasswordVisibility}>
+                <span
+                  className="absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
+                  onClick={togglePasswordVisibility}
+                >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </span>
               </div>
-              <div className="field space rounded-full">
-                <span className="fa fa-lock"></span>
+              {errors.password && (
+                <span className="text-red-600">Password is required</span>
+              )}
+            </div>
+            <div className="mb-4">
+              <label className="block mb-1 font-medium text-gray-700">
+                Confirm Password
+              </label>
+              <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="pass-key"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-indigo-500"
                   name="confirm"
                   required
                   placeholder="Confirm Password"
                   {...register("confirm", { required: true })}
                 />
-                {errors.confirm && (
-                  <span className="text-red-600">
-                    Confirm Password is required
-                  </span>
-                )}
-                <span className="show" onClick={togglePasswordVisibility}>
+                <span
+                  className="absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
+                  onClick={togglePasswordVisibility}
+                >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </span>
               </div>
-              <div className="pass text-white hidden">
-                <p>Forgot Password?</p>
-              </div>
-              <button className="field mt-5 rounded-full">
-                <input className="rounded-full" type="submit" value="SIGN UP" />
-              </button>
-            </form>
-            <div className="login">Or login with</div>
-            <div className="links">
-              <button
-                onClick={handleGoogleSignIn}
-                className="google rounded-full"
-              >
-                <FaGoogle className="me-1 "></FaGoogle>
-                <span>Google</span>
+              {errors.confirm && (
+                <span className="text-red-600">
+                  Confirm Password is required
+                </span>
+              )}
+            </div>
+            <div className="text-center">
+              <button className="w-full py-2 rounded-lg bg-indigo-500 text-white font-medium">
+                SIGN UP
               </button>
             </div>
-            <div className="signup">
-              Already have an account ? <Link to="/login">Sign in </Link>
-            </div>
-            <div className="signup">
-              <Link to="/">Go to Home</Link>
-            </div>
+          </form>
+          <div className="text-center mt-4">
+            <p className="text-white">Forgot Password?</p>
+          </div>
+          <div className="mt-4 text-center">Or login with</div>
+          <div className="flex justify-center mt-2">
+            <button
+              onClick={handleGoogleSignIn}
+              className="flex items-center bg-red-500 text-white rounded-lg px-4 py-2 mt-2 mr-2"
+            >
+              <FaGoogle className="me-1" />
+              <span>Google</span>
+            </button>
+          </div>
+          <div className="text-center mt-4">
+            Already have an account?{" "}
+            <Link to="/login" className="text-indigo-500">
+              Sign in
+            </Link>
+          </div>
+          <div className="text-center mt-2">
+            <Link to="/" className="text-indigo-500">
+              Go to Home
+            </Link>
           </div>
         </div>
       )}

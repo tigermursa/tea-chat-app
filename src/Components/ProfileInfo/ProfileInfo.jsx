@@ -61,7 +61,7 @@ const ProfileInfo = () => {
   };
 
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex w-full flex-col me-20">
       {users.map((user) => (
         <div key={user._id}>
           <div className="flex flex-col items-center">

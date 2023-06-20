@@ -27,20 +27,16 @@ const NavigationBar = () => {
   };
 
   return (
-    <div className="navbar ">
+    <div className="navbar bg-green-500">
       <div className="navbar-start">
         <div className="dropdown">
-          <label
-            tabIndex={0}
-            className=" lg:hidden"
-            onClick={toggleMobileMenu}
-          >
-            <FaLeaf className="ms-2 me-2 text-3xl text-green-700"/>
+          <label tabIndex={0} className="lg:hidden" onClick={toggleMobileMenu}>
+            <FaLeaf className="ms-2 me-2 text-3xl text-green-700 faLeaf" />
           </label>
           {isMobileMenuOpen && (
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+              className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-green-500 rounded-box w-52"
             >
               {user && (
                 <li>
@@ -90,7 +86,7 @@ const NavigationBar = () => {
                 src="https://png.pngtree.com/png-vector/20221023/ourmid/pngtree-green-tea-logo-png-image_6383759.png"
                 alt=""
               />
-              <p className="text-2xl font-bold">TEA CHAT</p>
+              <p className="text-2xl font-bold text-white">TEA CHAT</p>
             </div>
           </div>
         </NavLink>
@@ -148,7 +144,7 @@ const NavigationBar = () => {
           {user ? (
             <button
               onClick={signOutHandler}
-              className={`btn btn-ghost hidden md:block ms-5 ${
+              className={`btn btn-outline hidden md:block ms-5 me-5 ${
                 activeItem === "login" ? "activeNavItem" : ""
               }`}
             >

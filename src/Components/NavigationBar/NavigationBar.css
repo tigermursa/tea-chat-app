@@ -8,3 +8,21 @@
   height: 40px;
   border-radius: 30px;
 }
+
+
+/* leaf animation */
+@keyframes leafAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.faLeaf {
+  animation: leafAnimation 2s linear infinite;
+}

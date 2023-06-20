@@ -10,7 +10,7 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
   if (loading) {
     return (
-      <div className="flex justify-center items-center mt-96 mb-96 font-semibold text-4xl text-blue-950">
+      <div className="flex justify-center items-center mt-96 mb-96 font-semibold text-2xl text-green-700">
       Loading{" "}
       <div className="ms-5">
         <Spinner></Spinner>

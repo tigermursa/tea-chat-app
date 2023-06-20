@@ -4,7 +4,7 @@ import "./Spinner.css";
 
 function Spinner() {
   return (
-    <div className="spinner-border text-red-500" role="status">
+    <div className="spinner-border text-green-700" role="status">
       <span className="sr-only">Loading...</span>
     </div>
   );

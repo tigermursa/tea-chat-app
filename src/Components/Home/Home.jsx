@@ -3,11 +3,12 @@ import ProfileInfo from "../ProfileInfo/ProfileInfo";
 import Status from "../Status/Status";
 import Marquee from "react-fast-marquee";
 import { FaAngleDoubleRight } from "react-icons/fa";
+import Addvertis from "../Addvertise/Addvertise";
 const Home = () => {
   const isMobile = window.innerWidth <= 768;
 
   return (
-    <div className="mt-5">
+    <div className="mt-5 ms-0 me-0 md:ms-20 md:me-20">
       {isMobile ? (
         // Drawer for smaller screens
         <div className="drawer">
@@ -20,6 +21,13 @@ const Home = () => {
               </span>
             </label>
             <div>
+              <Marquee className="mb-5 font-mono">
+                Tea Chat is a MERN project designed for seamless photo and
+                status sharing. Stay connected and look forward to exciting
+                upcoming chatting features. Please note that this site is
+                currently under development, as we strive to deliver a polished
+                and professional experience
+              </Marquee>
               <Status></Status>
             </div>
           </div>
@@ -34,7 +42,7 @@ const Home = () => {
       ) : (
         // Divided layout for larger screens
         <div className="flex center border-2 p-5">
-          <div className="flex flex-col w-full lg:flex-row">
+          <div className="flex flex-col w-full lg:flex-row ">
             <div className="w-44 mx-auto md:mx-0 lg:mx-0">
               <ProfileInfo></ProfileInfo>
             </div>
@@ -50,6 +58,11 @@ const Home = () => {
                 and professional experience
               </Marquee>
               <Status></Status>
+            </div>
+            {/* divider */}
+            <div className="divider lg:divider-horizontal"></div>
+            <div>
+              <Addvertis></Addvertis>
             </div>
           </div>
         </div>
